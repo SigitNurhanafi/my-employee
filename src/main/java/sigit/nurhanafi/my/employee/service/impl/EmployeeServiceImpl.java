@@ -19,49 +19,37 @@ public class EmployeeServiceImpl implements EmployeeService{
     
     @Override
     public Employee saveEmployee(Employee employee) {
-        employee.setTotalBonus(calculateTotalBonus(employee.getGradeId(), employee.getSalary()));
         return employeeRepository.save(employee);
     }
 
     @Override
     public List<Employee> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
-        for (int i = 0; i < employees.size(); i++) {
-            long totalBonus = this.calculateTotalBonus(employees.get(i).getGradeId(), employees.get(i).getSalary());
-            employees.get(i).setTotalBonus(totalBonus);
-        }
-
         return employees;
     }
 
     @Override
     public Employee getEmployeeById(long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> 
-						new ResourceNotFoundException("Employee", "Id", id));
+        return employeeRepository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("Employee", "Id", id));
     }
     
-    protected Long calculateTotalBonus(int gradeCode, long salary){
-        switch (gradeCode) {
-            case 1:
-                    return (long) (salary + (long) salary * 0.1);
-            case 2:
-                    return (long) (salary + (long) salary * 0.06);
-            case 3:
-                    return (long) (salary + (long) salary * 0.03);
-            default:
-                    return salary;
-        }
+    @Override
+    public Employee updateEmployee(Employee employee, long id) {
+        Employee existEmployee = employeeRepository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("Employee", "Id", id));
+
+        existEmployee.setName(employee.getName());
+        existEmployee.setSalary(employee.getSalary());
+        existEmployee.setGradeId(employee.getGradeId());
+
+        return employeeRepository.save(existEmployee);
     }
 
-    // @Override
-    // public Employee updateEmployee(Employee employee, long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
-    // }
-
-    // @Override
-    // public void deleteEmployee(long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'deleteEmployee'");
-    // }
+    @Override
+    public void deleteEmployee(long id) {
+        employeeRepository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("Employee", "Id", id));
+        employeeRepository.deleteById(id);
+    }
 }
