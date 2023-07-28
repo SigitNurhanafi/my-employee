@@ -44,9 +44,9 @@ public class EmployeeController {
 		return new ResponseEntity<Employee>(employeeService.updateEmployee(employee, employeeId), HttpStatus.OK);
 	}
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(value = "{id}", produces={ "application/hal+json" })
 	public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") long employeeId){
 		employeeService.deleteEmployee(employeeId);
-        return new ResponseEntity<String>("Entity Delete successfuly", HttpStatus.OK);
+        return new ResponseEntity<String>("{\"message\":\"Entity Delete Successfuly\"}", HttpStatus.ACCEPTED);
 	}
 }
