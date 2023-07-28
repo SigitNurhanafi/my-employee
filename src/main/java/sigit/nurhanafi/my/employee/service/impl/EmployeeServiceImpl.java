@@ -1,11 +1,13 @@
 package sigit.nurhanafi.my.employee.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sigit.nurhanafi.my.employee.entity.Employee;
+import sigit.nurhanafi.my.employee.exception.ResourceNotFoundException;
 import sigit.nurhanafi.my.employee.repository.EmployeeRepository;
 import sigit.nurhanafi.my.employee.service.EmployeeService;
 
@@ -17,6 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     
     @Override
     public Employee saveEmployee(Employee employee) {
+        employee.setTotalBonus(calculateTotalBonus(employee.getGradeId(), employee.getSalary()));
         return employeeRepository.save(employee);
     }
 
@@ -31,6 +34,12 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employees;
     }
 
+    @Override
+    public Employee getEmployeeById(long id) {
+        return employeeRepository.findById(id).orElseThrow(() -> 
+						new ResourceNotFoundException("Employee", "Id", id));
+    }
+    
     protected Long calculateTotalBonus(int gradeCode, long salary){
         switch (gradeCode) {
             case 1:
@@ -42,14 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService{
             default:
                     return salary;
         }
-
     }
-
-    // @Override
-    // public Employee getEmployeeById(long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'getEmployeeById'");
-    // }
 
     // @Override
     // public Employee updateEmployee(Employee employee, long id) {
