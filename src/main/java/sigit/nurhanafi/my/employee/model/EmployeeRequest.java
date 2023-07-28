@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Range;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateEmployeeRequest {
+public class EmployeeRequest {
     @NotBlank
     private String name;
     
     @NotNull
     @Range(min=1000)
-    private Long salary;
+    private long salary;
 
     @NotNull
     @Range(min=1)
