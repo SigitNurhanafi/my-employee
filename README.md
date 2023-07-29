@@ -1,4 +1,4 @@
-# my-employee
+# API documentation & Database design documents
 
 ## Create New Employee
 Endpoint :
@@ -135,3 +135,16 @@ Response :
     "message": "Entity Delete Successfuly"
 }
 ```
+# Database design 
+
+| Database Name   | `my-employee`                       |
+|-----------------|------------------------------------|
+| Table Name      | `employees`                        |
+
+
+| Column Name | Data Type           | Description                                                          |
+|-------------|---------------------|----------------------------------------------------------------------|
+| `id`        | bigint(20)          | Primary key for uniquely identifying each employee (auto-incremented).|
+| `name`      | varchar(50)         | Stores the name of the employee (text with a maximum length of 50 characters).|
+| `salary`    | int(50) unsigned    | Stores the employee's salary (non-negative integer with a maximum length of 50 digits).|
+| `grade_id`  | int(11)             | Stores the ID of the employee's grade or level (integer with a maximum length of 11 digits).|
