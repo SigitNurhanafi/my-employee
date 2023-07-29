@@ -49,7 +49,7 @@ public class Employee {
         } else if (gradeId == Employee.STAFF) {
             return (long) (salary + (long) salary * 0.03);
         } else {
-            return salary;
+            return (long) 0;
         }
     }
 }
